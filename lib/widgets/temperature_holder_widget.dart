@@ -16,7 +16,7 @@ class TemperatureHolderWidget extends StatelessWidget {
           style: const TextStyle(color: Colors.white, fontSize: 30),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 15, left: 5),
+          padding: const EdgeInsets.only(top: 9, left: 1),
           child: Container(
             width: 10,
             height: 10,
