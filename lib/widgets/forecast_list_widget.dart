@@ -10,15 +10,11 @@ class ForecastListWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final stateNotifier = watch(weatherStateProvider.notifier);
+    final stateNotifier = watch(weatherStateProvider.notifier).weatherForecast as WeatherForecastState;
+    final _itemCount = stateNotifier.weatherForecastPayload!.forecast.forecastday.length;
     return ListView.builder(
-      itemCount: (stateNotifier.weatherForecast as WeatherForecastState).weatherForecastPayload!.forecast.forecastday.length,
-      itemBuilder: (context, pos){
-        debugPrint((stateNotifier.weatherForecast as WeatherForecastState).weatherForecastPayload!.forecast.forecastday[pos].date);
-        var date = DateTime.fromMillisecondsSinceEpoch((stateNotifier.weatherForecast as WeatherForecastState).weatherForecastPayload!.forecast.forecastday[pos].dateEpoch).toIso8601String();
-        debugPrint(date);
-        return ForecastHolderWidget(pos: pos);
-      },
+      itemCount: _itemCount,
+      itemBuilder: (context, pos) => ForecastHolderWidget(pos: pos),
     );
   }
 }

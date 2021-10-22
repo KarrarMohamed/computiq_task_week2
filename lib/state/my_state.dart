@@ -89,6 +89,9 @@ class MyState extends CustomChangeNotifier {
 // =================================================================
 
   Future<void> updateCurrentRegion(String selectedRegion) async {
+    if (currentRegion == selectedRegion) {
+      return;
+    }
     currentRegion = selectedRegion;
     fetchWeatherForecast();
   }

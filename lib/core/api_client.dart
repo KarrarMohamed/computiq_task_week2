@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:computiq_task_week2/core/api_response.dart';
 import 'package:computiq_task_week2/core/forecast_payload.dart';
@@ -16,33 +17,39 @@ class ApiClient {
   }
 
   Future<ApiResponse> fetchWeather({required String city}) async {
-    // var isConnected = await checkInternetConnection();
-    // if (!isConnected) {
-    //   return NoInternetConnection();
-    // }
+
+    // this is because the connectivity package does not support windows
+    if(Platform.isAndroid || Platform.isIOS || Platform.isMacOS){
+      var isConnected = await checkInternetConnection();
+      if (!isConnected) {
+        return NoInternetConnection();
+      }
+    }
+
     var response = await _ref.read(httpProvider).fetchWeather(city: city);
     if (response is SuccessResponse) {
       WeatherPayload payload = WeatherPayload.fromJson(json.decode(response.data));
       var stateObject = WeatherState(weatherPayload: payload);
       return stateObject;
-    } else {
-      return response;
     }
+    return response;
   }
 
   Future<ApiResponse> fetchForecast({required String city}) async {
-    // var isConnected = await checkInternetConnection();
-    // if (!isConnected) {
-    //   return NoInternetConnection();
-    // }
+    // this is because the connectivity package does not support windows
+    if(Platform.isAndroid || Platform.isIOS || Platform.isMacOS){
+      var isConnected = await checkInternetConnection();
+      if (!isConnected) {
+        return NoInternetConnection();
+      }
+    }
     var response = await _ref.read(httpProvider).fetchForecast(city: city);
     if (response is SuccessResponse) {
       WeatherForcastPayload payload = WeatherForcastPayload.fromJson(json.decode(response.data));
       var weatherForecastState = WeatherForecastState(weatherForecastPayload: payload);
       return weatherForecastState;
-    } else {
-      return response;
     }
+    return response;
   }
 }
 
